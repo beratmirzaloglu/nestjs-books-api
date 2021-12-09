@@ -15,13 +15,13 @@ export class BooksController {
   constructor(private readonly booksService: BooksService) {}
 
   @Post()
-  insertBook(
+  async insertBook(
     @Body('name') name: string,
     @Body('author') author: string,
     @Body('category') category: string,
     @Body('numberOfPages') numberOfPages: number,
-  ): { id: string } {
-    const id = this.booksService.insertBook(
+  ): Promise<{ id: string }> {
+    const id = await this.booksService.insertBook(
       name,
       author,
       category,
@@ -32,8 +32,8 @@ export class BooksController {
   }
 
   @Get()
-  fetchAllBooks(): { books: Book[] } {
-    const books = this.booksService.fetchAllBooks();
+  async fetchAllBooks() {
+    const books = await this.booksService.fetchAllBooks();
     return { books: books };
   }
 
@@ -43,14 +43,14 @@ export class BooksController {
   }
 
   @Patch(':id')
-  updateBook(
+  async updateBook(
     @Param('id') id: string,
     @Body('name') name: string,
     @Body('author') author: string,
     @Body('category') category: string,
     @Body('numberOfPages') numberOfPages: number,
   ) {
-    this.booksService.updateSingleBook(
+    await this.booksService.updateSingleBook(
       id,
       name,
       author,
@@ -61,8 +61,9 @@ export class BooksController {
   }
 
   @Delete(':id')
-  removeBook(@Param('id') id: string) {
-    this.booksService.removeBook(id);
+  async removeBook(@Param('id') id: string) {
+    await this.booksService.removeBook(id);
+
     return null;
   }
 }
