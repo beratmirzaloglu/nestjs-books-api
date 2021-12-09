@@ -7,12 +7,10 @@ export const BookSchema = new mongoose.Schema({
   numberOfPages: { type: Number, required: true },
 });
 
-export class Book {
-  constructor(
-    public id: string,
-    public name: string,
-    public author: string,
-    public category: string,
-    public numberOfPages: number,
-  ) {}
+export interface Book extends mongoose.Document {
+  id: string;
+  name: string;
+  author: string;
+  category: string;
+  numberOfPages: number;
 }
